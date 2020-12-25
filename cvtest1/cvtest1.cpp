@@ -1,10 +1,33 @@
-// cvtest1.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
+/*
+    https://www.murtazahassan.com/courses/opencv-cpp-course/lesson/windows/
 
+    VC++ Directories
+    1. Add Build Directories: D:\opencv\build\include
+    2. Add Library Directories: D:\opencv\build\x64\vc15\lib
+Linker Input
+    3. Add Linker input: opencv_world451d.lib (opencv 4.5.1)
+       d for debug without d for release
+
+*/
+
+#include <opencv2/imgcodecs.hpp>
+#include <opencv2/highgui.hpp>
+#include <opencv2/imgproc.hpp>
 #include <iostream>
 
-int main()
-{
-    std::cout << "Hello Ivo!\n";
+using namespace cv;
+using namespace std;
+
+
+/////////////////  Images  //////////////////////
+
+int main() {
+    string path = "Resources/lambo.png";
+    Mat img = imread(path);
+    imshow("Image", img);
+    waitKey(0);
+    return 0;
 }
+
+
 

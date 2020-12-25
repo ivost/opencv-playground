@@ -147,7 +147,18 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <Image Include="Resources\cards.jpg" />
     <Image Include="Resources\lambo.png" />
+    <Image Include="Resources\paper.jpg" />
+    <Image Include="Resources\shapes.png" />
+    <Image Include="Resources\test.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="Resources\haarcascade_frontalface_default.xml" />
+    <Xml Include="Resources\haarcascade_russian_plate_number.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="Resources\test_video.mp4" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

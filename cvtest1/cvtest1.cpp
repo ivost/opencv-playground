@@ -19,13 +19,43 @@ using namespace cv;
 using namespace std;
 
 
-/////////////////  Images  //////////////////////
-
-int main() {
-    string path = "Resources/lambo.png";
+void showImage(string path) {
     Mat img = imread(path);
     imshow("Image", img);
-    waitKey(0);
+}
+
+void showVideo(string path) {
+    VideoCapture vc(path);
+    Mat m;
+    while (vc.read(m)) {
+        imshow("Image", m);
+        int k = waitKey(20);
+        if (k >= ' ') {
+            return;
+        }
+    }
+}
+
+void showCam(int n) {
+    VideoCapture vc(n);
+    Mat m;
+    while (vc.read(m)) {
+        imshow("Image", m);
+        int k = waitKey(1);
+        if (k >= ' ') {
+            return;
+        }
+    }
+}
+
+int main() {
+
+    /*
+        showImage("Resources/lambo.png");
+        showVideo("Resources/test_video.mp4");
+    */
+    showCam(0);
+
     return 0;
 }
 

@@ -23,5 +23,24 @@
     <Image Include="Resources\lambo.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="Resources\cards.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Resources\paper.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Resources\shapes.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Resources\test.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="Resources\haarcascade_frontalface_default.xml" />
+    <Xml Include="Resources\haarcascade_russian_plate_number.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="Resources\test_video.mp4" />
   </ItemGroup>
 </Project>

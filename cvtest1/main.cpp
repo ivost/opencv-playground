@@ -1,17 +1,5 @@
 /*
 * 
- 
-    https://docs.opencv.org/4.5.1/
- 
-    https://www.murtazahassan.com/courses/opencv-cpp-course/lesson/windows/
-
-    VC++ Directories
-    1. Add Build Directories: D:\opencv\build\include
-    2. Add Library Directories: D:\opencv\build\x64\vc15\lib
-Linker Input
-    3. Add Linker input: opencv_world451d.lib (opencv 4.5.1)
-       d for debug without d for release
-
 */
 
 #include <opencv2/imgcodecs.hpp>
@@ -23,6 +11,13 @@ Linker Input
 using namespace cv;
 using namespace std;
 
+int checkKey() {
+    int k = waitKey(10);
+    if (k >= ' ') {
+        return 1;
+    }
+    return 0;
+}
 
 void showImage(string path) {
     Mat img = imread(path);
@@ -34,8 +29,7 @@ void showVideo(string path) {
     Mat m;
     while (vc.read(m)) {
         imshow("Image", m);
-        int k = waitKey(20);
-        if (k >= ' ') {
+        if (checkKey()) {
             return;
         }
     }
@@ -46,10 +40,10 @@ void showCam(int n) {
     Mat m;
     while (vc.read(m)) {
         imshow("Image", m);
-        int k = waitKey(1);
-        if (k >= ' ') {
+        if (checkKey()) {
             return;
         }
+        int k = waitKey(1);
     }
 }
 
@@ -144,60 +138,56 @@ void getContours(Mat imgDil, Mat img) {
     vector<vector<Point>> conPoly(contours.size());
     vector<Rect> boundRect(contours.size());
 
-    for (int i = 0; i < contours.size(); i++)
-    {
+    for (int i = 0; i < contours.size(); i++) {
         int area = contourArea(contours[i]);
         cout << area << endl;
         string objectType;
 
-        if (area > 1000)
-        {
+        if (area > 1000) {
             float peri = arcLength(contours[i], true);
             approxPolyDP(contours[i], conPoly[i], 0.02 * peri, true);
             cout << conPoly[i].size() << endl;
             boundRect[i] = boundingRect(conPoly[i]);
 
-            int numVert = (int)conPoly[i].size();
+            int numVert = (int) conPoly[i].size();
 
             if (numVert == 3) { objectType = "Triangle"; }
-            else if (numVert == 4)
-            {
-                float aspRatio = (float)boundRect[i].width / (float)boundRect[i].height;
+            else if (numVert == 4) {
+                float aspRatio = (float) boundRect[i].width / (float) boundRect[i].height;
                 cout << aspRatio << endl;
                 if (aspRatio > 0.95 && aspRatio < 1.05) { objectType = "Square"; }
                 else { objectType = "Rectangle"; }
-            }
-            else if (numVert > 4) { objectType = "Circle"; }
+            } else if (numVert > 4) { objectType = "Circle"; }
 
             drawContours(img, conPoly, i, Scalar(255, 0, 255), 2);
             rectangle(img, boundRect[i].tl(), boundRect[i].br(), Scalar(0, 255, 0), 5);
-            putText(img, objectType, { boundRect[i].x,boundRect[i].y - 5 }, FONT_HERSHEY_PLAIN, 1, Scalar(0, 69, 255), 2);
+            putText(img, objectType, {boundRect[i].x, boundRect[i].y - 5}, FONT_HERSHEY_PLAIN, 1, Scalar(0, 69, 255),
+                    2);
         }
     }
 }
 
-    void face(string path) {
-        Mat img = imread(path);
+void face(string path) {
+    Mat img = imread(path);
 
-        CascadeClassifier faceCascade;
-        faceCascade.load("Resources/haarcascade_frontalface_default.xml");
+    CascadeClassifier faceCascade;
+    faceCascade.load("./Resources/haarcascade_frontalface_default.xml");
 
-        if (faceCascade.empty()) { 
-            cout << "XML file not loaded" << endl; 
-            return;
-        }
-
-        vector<Rect> faces;
-        faceCascade.detectMultiScale(img, faces, 1.1, 10);
-
-        for (int i = 0; i < faces.size(); i++)
-        {
-            rectangle(img, faces[i].tl(), faces[i].br(), Scalar(255, 0, 255), 3);
-        }
-
-        imshow("Image", img);
-        waitKey(0);
+    if (faceCascade.empty()) {
+        cout << "XML file not loaded" << endl;
+        return;
     }
+
+    vector<Rect> faces;
+    faceCascade.detectMultiScale(img, faces, 1.1, 10);
+
+    for (int i = 0; i < faces.size(); i++) {
+        rectangle(img, faces[i].tl(), faces[i].br(), Scalar(255, 0, 255), 3);
+    }
+
+    imshow("Image", img);
+    waitKey(0);
+}
 
 
 int main() {
@@ -212,27 +202,23 @@ int main() {
     shapesAndText();
     colorDetection("Resources/lambo.png");
 
+    string path = "Resources/test.png";
+    face(path);
+
+    // shape detection
     string path = "Resources/shapes.png";
     Mat img = imread(path);
     Mat imgGray, imgBlur, imgCanny, imgDil, imgErode;
-
     // Preprocessing
     cvtColor(img, imgGray, COLOR_BGR2GRAY);
     GaussianBlur(imgGray, imgBlur, Size(3, 3), 3, 0);
     Canny(imgBlur, imgCanny, 25, 75);
     Mat kernel = getStructuringElement(MORPH_RECT, Size(3, 3));
     dilate(imgCanny, imgDil, kernel);
-
     getContours(imgDil, img);
-
     imshow("Image", img);
     imshow("Image Dilated", imgDil);
-
-
     */
-
-    string path = "Resources/test.png";
-    face(path);
 
     waitKey(0);
     return 0;
